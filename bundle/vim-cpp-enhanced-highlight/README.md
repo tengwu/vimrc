@@ -23,7 +23,12 @@ Highlighting of member variables is disabled by default. To enable set
 let g:cpp_member_variable_highlight = 1
 ```
 
-There are two ways to hightlight template functions. Either
+Highlighting of class names in declarations is disabled by default. To enable set
+```vim
+let g:cpp_class_decl_highlight = 1
+```
+
+There are two ways to highlight template functions. Either
 ```vim
 let g:cpp_experimental_simple_template_highlight = 1
 ```
@@ -44,6 +49,11 @@ let g:cpp_concepts_highlight = 1
 ```
 This will highlight the keywords `concept` and `requires` as well as all named
 requirements (like `DefaultConstructible`) in the standard library.
+
+Highlighting of user defined functions can be disabled by
+```vim
+let g:cpp_no_function_highlight = 1
+```
 
 Installation instructions
 -------------------------

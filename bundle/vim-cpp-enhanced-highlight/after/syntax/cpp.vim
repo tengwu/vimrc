@@ -2,7 +2,7 @@
 " Language: C++ Additions
 " Maintainer: Jon Haggblad <jon@haeggblad.com>
 " URL: http://www.haeggblad.com
-" Last Change: 12 Oct 2016
+" Last Change: 1 Feb 2018
 " Version: 0.6
 " Changelog:
 "   0.1 - initial version.
@@ -34,9 +34,11 @@
 " -----------------------------------------------------------------------------
 
 " Functions
-syn match   cCustomParen    "(" contains=cParen contains=cCppParen
-syn match   cCustomFunc     "\w\+\s*(\@="
-hi def link cCustomFunc  Function
+if !exists('g:cpp_no_function_highlight')
+    syn match   cCustomParen    transparent "(" contains=cParen contains=cCppParen
+    syn match   cCustomFunc     "\w\+\s*(\@="
+    hi def link cCustomFunc  Function
+endif
 
 " Class and namespace scope
 if exists('g:cpp_class_scope_highlight') && g:cpp_class_scope_highlight
@@ -46,6 +48,52 @@ if exists('g:cpp_class_scope_highlight') && g:cpp_class_scope_highlight
     hi def link cCustomClass Function
 endif
 
+" Clear cppStructure and replace "class" and/or "template" with matches
+" based on user configuration
+let s:needs_cppstructure_match = 0
+if exists('g:cpp_class_decl_highlight') && g:cpp_class_decl_highlight
+	let s:needs_cppstructure_match += 1
+endif
+if exists('g:cpp_experimental_template_highlight') && g:cpp_experimental_template_highlight
+	let s:needs_cppstructure_match += 2
+endif
+
+syn clear cppStructure
+if s:needs_cppstructure_match == 0
+	syn keyword cppStructure typename namespace template class
+elseif s:needs_cppstructure_match == 1
+	syn keyword cppStructure typename namespace template
+elseif s:needs_cppstructure_match == 2
+	syn keyword cppStructure typename namespace class
+elseif s:needs_cppstructure_match == 3
+	syn keyword cppStructure typename namespace
+endif
+unlet s:needs_cppstructure_match
+
+
+" Class name declaration
+if exists('g:cpp_class_decl_highlight') && g:cpp_class_decl_highlight
+	syn match cCustomClassKey "\<class\>"
+	hi def link cCustomClassKey cppStructure
+
+	" Clear cppAccess entirely and redefine as matches
+	syn clear cppAccess
+	syn match cCustomAccessKey "\<private\>"
+	syn match cCustomAccessKey "\<public\>"
+	syn match cCustomAccessKey "\<protected\>"
+	hi def link cCustomAccessKey cppAccess
+
+	" Match the parts of a class declaration
+	syn match cCustomClassName "\<class\_s\+\w\+\>"
+				\ contains=cCustomClassKey
+	syn match cCustomClassName "\<private\_s\+\w\+\>"
+				\ contains=cCustomAccessKey
+	syn match cCustomClassName "\<public\_s\+\w\+\>"
+				\ contains=cCustomAccessKey
+	syn match cCustomClassName "\<protected\_s\+\w\+\>"
+				\ contains=cCustomAccessKey
+	hi def link cCustomClassName Function
+endif
 " Template functions.
 " Naive implementation that sorta works in most cases. Should correctly
 " highlight everything in test/color2.cpp
@@ -77,17 +125,12 @@ elseif exists('g:cpp_experimental_template_highlight') && g:cpp_experimental_tem
                 \ contains=cCustomAngleBracketStart,cCustomTemplateFunc
     hi def link cCustomTemplateClass cCustomClass
 
-
-    " Remove 'template' from cppStructure and use a custom match
-    syn clear cppStructure
-    syn keyword cppStructure class typename namespace
-
     syn match   cCustomTemplate "\<template\>"
     hi def link cCustomTemplate  cppStructure
     syn match   cTemplateDeclare "\<template\_s*<\_[^;()]\{-}>"
-                \ contains=cppStructure,cCustomTemplate,cCustomAngleBracketStart
+                \ contains=cppStructure,cCustomTemplate,cCustomClassKey,cCustomAngleBracketStart
 
-    " Remove 'operator' from cppStructure and use a custom match
+    " Remove 'operator' from cppOperator and use a custom match
     syn clear cppOperator
     syn keyword cppOperator typeid
     syn keyword cppOperator and bitor or xor compl bitand and_eq or_eq xor_eq not not_eq
@@ -104,7 +147,7 @@ endif
 "hi def link cCustomFunc  Function
 
 " Cluster for all the stdlib functions defined below
-syn cluster cppSTLgroup     contains=cppSTLfunction,cppSTLfunctional,cppSTLconstant,cppSTLnamespace,cppSTLtype,cppSTLexception,cppSTLiterator,cppSTLiterator_tagcppSTLenumcppSTLioscppSTLcast
+syn cluster cppSTLgroup     contains=cppSTLfunction,cppSTLfunctional,cppSTLconstant,cppSTLnamespace,cppSTLtype,cppSTLexception,cppSTLiterator,cppSTLiterator_tag,cppSTLenum,cppSTLios,cppSTLcast
 
 
 " -----------------------------------------------------------------------------
@@ -182,6 +225,7 @@ syntax keyword cppSTLfunctional binary_negate
 syntax keyword cppSTLfunctional bit_and
 syntax keyword cppSTLfunctional bit_not
 syntax keyword cppSTLfunctional bit_or
+syntax keyword cppSTLfunctional bit_xor
 syntax keyword cppSTLfunctional divides
 syntax keyword cppSTLfunctional equal_to
 syntax keyword cppSTLfunctional greater
@@ -697,6 +741,7 @@ syntax keyword cppSTLtype slice_array
 syntax keyword cppSTLtype stack
 syntax keyword cppSTLtype stream
 syntax keyword cppSTLtype streambuf
+syntax keyword cppSTLtype streamsize
 syntax keyword cppSTLtype string
 syntax keyword cppSTLtype stringbuf
 syntax keyword cppSTLtype stringstream
@@ -808,6 +853,37 @@ syntax keyword cppSTLconstant WEOF
 syntax keyword cppSTLconstant WCHAR_MIN
 syntax keyword cppSTLconstant WCHAR_MAX
 
+" locale
+syntax keyword cppSTLtype locale
+syntax keyword cppSTLtype ctype_base
+syntax keyword cppSTLtype codecvt_base
+syntax keyword cppSTLtype messages_base
+syntax keyword cppSTLtype time_base
+syntax keyword cppSTLtype money_base
+syntax keyword cppSTLtype ctype
+syntax keyword cppSTLtype codecvt
+syntax keyword cppSTLtype collate
+syntax keyword cppSTLtype messages
+syntax keyword cppSTLtype time_get
+syntax keyword cppSTLtype time_put
+syntax keyword cppSTLtype num_get
+syntax keyword cppSTLtype num_put
+syntax keyword cppSTLtype numpunct
+syntax keyword cppSTLtype money_get
+syntax keyword cppSTLtype money_put
+syntax keyword cppSTLtype moneypunct
+syntax keyword cppSTLtype ctype_byname
+syntax keyword cppSTLtype codecvt_byname
+syntax keyword cppSTLtype messages_byname
+syntax keyword cppSTLtype collate_byname
+syntax keyword cppSTLtype time_get_byname
+syntax keyword cppSTLtype time_put_byname
+syntax keyword cppSTLtype numpunct_byname
+syntax keyword cppSTLtype moneypunct_byname
+syntax keyword cppSTLfunction use_facet
+syntax keyword cppSTLfunction has_facet
+syntax keyword cppSTLfunction isspace isblank iscntrl isupper islower isalpha
+syntax keyword cppSTLfunction isdigit ispunct isxdigit isalnum isprint isgraph
 
 if !exists("cpp_no_cpp11")
     syntax keyword cppSTLconstant nullptr
@@ -1719,6 +1795,9 @@ if !exists("cpp_no_cpp17")
     syntax keyword cppSTLfunction do_deallocate
     syntax keyword cppSTLfunction do_is_equal
 
+    " mutex
+    syntax keyword cppSTLtype scoped_lock
+
     " new
     syntax keyword cppSTLconstant hardware_destructive_interference_size
     syntax keyword cppSTLconstant hardware_constructive_interference_size
@@ -1757,7 +1836,7 @@ if !exists("cpp_no_cpp17")
     syntax keyword cppSTLbool is_error_code_enum_v
     syntax keyword cppSTLbool is_error_condition_enum_v
 
-    " thread
+    " shared_mutex
     syntax keyword cppSTLtype shared_mutex
 
     " tuple
@@ -1832,6 +1911,16 @@ if !exists("cpp_no_cpp17")
     syntax keyword cppSTLbool conjunction_v
     syntax keyword cppSTLbool disjunction_v
     syntax keyword cppSTLbool negation_v
+    syntax keyword cppSTLbool has_unique_object_representations_v
+    syntax keyword cppSTLbool is_swappable_v
+    syntax keyword cppSTLbool is_swappable_with_v
+    syntax keyword cppSTLbool is_nothrow_swappable_v
+    syntax keyword cppSTLbool is_nothrow_swappable_with_v
+    syntax keyword cppSTLbool is_invocable_v
+    syntax keyword cppSTLbool is_invocable_r_v
+    syntax keyword cppSTLbool is_nothrow_invocable_v
+    syntax keyword cppSTLbool is_nothrow_invocable_r_v
+    syntax keyword cppSTLbool is_aggregate_v
     syntax keyword cppSTLconstant alignment_of_v
     syntax keyword cppSTLconstant rank_v
     syntax keyword cppSTLconstant extent_v
@@ -1841,6 +1930,19 @@ if !exists("cpp_no_cpp17")
     syntax keyword cppSTLtype conjunction
     syntax keyword cppSTLtype disjunction
     syntax keyword cppSTLtype negation
+    syntax keyword cppSTLtype void_t
+    syntax keyword cppSTLtype has_unique_object_representations
+    syntax keyword cppSTLtype is_swappable
+    syntax keyword cppSTLtype is_swappable_with
+    syntax keyword cppSTLtype is_nothrow_swappable
+    syntax keyword cppSTLtype is_nothrow_swappable_with
+    syntax keyword cppSTLtype is_invocable
+    syntax keyword cppSTLtype is_invocable_r
+    syntax keyword cppSTLtype is_nothrow_invocable
+    syntax keyword cppSTLtype is_nothrow_invocable_r
+    syntax keyword cppSTLtype invoke_result
+    syntax keyword cppSTLtype invoke_result_t
+    syntax keyword cppSTLtype is_aggregate
 
     " unordered_map, unordered_set, unordered_multimap, unordered_multiset
     syntax keyword cppSTLtype node_type
@@ -1872,6 +1974,12 @@ if !exists("cpp_no_cpp17")
     syntax keyword cppSTLfunction visit
     " syntax keyword cppSTLfunction index
 endif " C++17
+
+
+if !exists("cpp_no_cpp20")
+    " type_traits
+    syntax keyword cppSTLtype remove_cvref remove_cvref_t
+endif
 
 
 if exists('g:cpp_concepts_highlight') && g:cpp_concepts_highlight

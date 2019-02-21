@@ -29,6 +29,10 @@ filetype plugin on
 " h: vundle 		-获取帮助
 " vundle配置完毕，在下面写自己的配置
 """"""""""""""""""""""
+colorscheme molokai
+set number
+set cursorcolumn
+set cursorline
 set tabstop=4
 syntax on
 set hlsearch " 搜索高亮

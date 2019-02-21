@@ -3,8 +3,8 @@
 " Description: vim global plugin that provides easy code commenting
 " Author:      Martin Grenfell <martin.grenfell at gmail dot com>
 " Maintainer:  Caleb Maclennan <caleb@alerque.com>
-" Version:     2.4.0
-" Last Change: Tue May 24 14:03:29 EEST 2016
+" Version:     2.5.1
+" Last Change: Tue Nov  7 10:45:53 +03 2017
 " License:     This program is free software. It comes without any warranty,
 "              to the extent permitted by applicable law. You can redistribute
 "              it and/or modify it under the terms of the Do What The Fuck You
@@ -65,6 +65,7 @@ call s:InitVariable("g:NERDRPlace", "<]")
 call s:InitVariable("g:NERDSpaceDelims", 0)
 call s:InitVariable("g:NERDDefaultAlign", "none")
 call s:InitVariable("g:NERDTrimTrailingWhitespace", 0)
+call s:InitVariable("g:NERDToggleCheckAllLines", 0)
 
 let s:NERDFileNameEscape="[]#*$%'\" ?`!&();<>\\"
 
@@ -82,13 +83,14 @@ let s:delimiterMap = {
     \ 'ansible': { 'left': '#' },
     \ 'apache': { 'left': '#' },
     \ 'apachestyle': { 'left': '#' },
+    \ 'apdl': { 'left': '!' },
     \ 'applescript': { 'left': '--', 'leftAlt': '(*', 'rightAlt': '*)' },
     \ 'armasm': { 'left': ';' },
     \ 'asciidoc': { 'left': '//' },
     \ 'asm': { 'left': ';', 'leftAlt': '#' },
     \ 'asm68k': { 'left': ';' },
     \ 'asn': { 'left': '--' },
-    \ 'asp': { 'left': '%', 'leftAlt': '%*','rightAlt': '*%' },
+    \ 'asp': { 'left': '%', 'leftAlt': '%*', 'rightAlt': '*%' },
     \ 'aspvbs': { 'left': '''', 'leftAlt': '<!--', 'rightAlt': '-->' },
     \ 'asterisk': { 'left': ';' },
     \ 'asy': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
@@ -106,7 +108,7 @@ let s:delimiterMap = {
     \ 'blade': { 'left': '{{--', 'right': '--}}' },
     \ 'bst': { 'left': '%' },
     \ 'btm': { 'left': '::' },
-    \ 'c': { 'left': '/*','right': '*/', 'leftAlt': '//' },
+    \ 'c': { 'left': '/*', 'right': '*/', 'leftAlt': '//' },
     \ 'cabal': { 'left': '--' },
     \ 'calibre': { 'left': '//' },
     \ 'caos': { 'left': '*' },
@@ -130,7 +132,7 @@ let s:delimiterMap = {
     \ 'csp': { 'left': '--' },
     \ 'cterm': { 'left': '*' },
     \ 'cucumber': { 'left': '#' },
-    \ 'cuda': { 'left': '/*','right': '*/', 'leftAlt': '//' },
+    \ 'cuda': { 'left': '/*', 'right': '*/', 'leftAlt': '//' },
     \ 'cvs': { 'left': 'CVS:' },
     \ 'cython': { 'left': '# ', 'leftAlt': '#' },
     \ 'd': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
@@ -142,7 +144,7 @@ let s:delimiterMap = {
     \ 'desktop': { 'left': '#' },
     \ 'dhcpd': { 'left': '#' },
     \ 'diff': { 'left': '#' },
-    \ 'django': { 'left': '<!--','right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
+    \ 'django': { 'left': '{% comment %}', 'right': '{% endcomment %}', 'leftAlt': '{#', 'rightAlt': '#}' },
     \ 'dns': { 'left': ';' },
     \ 'docbk': { 'left': '<!--', 'right': '-->' },
     \ 'dockerfile': { 'left': '#' },
@@ -170,6 +172,7 @@ let s:delimiterMap = {
     \ 'exports': { 'left': '#' },
     \ 'factor': { 'left': '! ', 'leftAlt': '!# ' },
     \ 'fancy': { 'left': '#' },
+    \ 'faust': { 'left': '//' },
     \ 'fgl': { 'left': '#' },
     \ 'focexec': { 'left': '-*' },
     \ 'form': { 'left': '*' },
@@ -183,7 +186,7 @@ let s:delimiterMap = {
     \ 'gdb': { 'left': '#' },
     \ 'gdmo': { 'left': '--' },
     \ 'geek': { 'left': 'GEEK_COMMENT:' },
-    \ 'genshi': { 'left': '<!--','right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
+    \ 'genshi': { 'left': '<!--', 'right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
     \ 'gentoo-conf-d': { 'left': '#' },
     \ 'gentoo-env-d': { 'left': '#' },
     \ 'gentoo-init-d': { 'left': '#' },
@@ -195,15 +198,16 @@ let s:delimiterMap = {
     \ 'gitconfig': { 'left': ';' },
     \ 'gitignore': { 'left': '#' },
     \ 'gitrebase': { 'left': '#' },
+    \ 'glsl': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'gnuplot': { 'left': '#' },
     \ 'go': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'groovy': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-    \ 'gsp': { 'left': '<%--', 'right': '--%>', 'leftAlt': '<!--','rightAlt': '-->'},
+    \ 'gsp': { 'left': '<%--', 'right': '--%>', 'leftAlt': '<!--', 'rightAlt': '-->' },
     \ 'gtkrc': { 'left': '#' },
     \ 'h': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'haml': { 'left': '-#', 'leftAlt': '/' },
     \ 'handlebars': { 'left': '{{!-- ', 'right': ' --}}' },
-    \ 'haskell': { 'left': '{-','right': '-}', 'nested': 1, 'leftAlt': '--', 'nestedAlt': 1 },
+    \ 'haskell': { 'left': '--', 'nested': 0, 'leftAlt': '{-', 'rightAlt': '-}', 'nestedAlt': 1 },
     \ 'haxe': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'hb': { 'left': '#' },
     \ 'hbs': { 'left': '{{!-- ', 'right': ' --}}' },
@@ -212,7 +216,7 @@ let s:delimiterMap = {
     \ 'hog': { 'left': '#' },
     \ 'hostsaccess': { 'left': '#' },
     \ 'htmlcheetah': { 'left': '##' },
-    \ 'htmldjango': { 'left': '<!--','right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
+    \ 'htmldjango': { 'left': '{% comment %}', 'right': '{% endcomment %}', 'leftAlt': '{#', 'rightAlt': '#}' },
     \ 'htmlos': { 'left': '#', 'right': '/#' },
     \ 'hxml': { 'left': '#' },
     \ 'hyphy': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
@@ -234,17 +238,18 @@ let s:delimiterMap = {
     \ 'javascript.jquery': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'jess': { 'left': ';' },
     \ 'jgraph': { 'left': '(*', 'right': '*)' },
-    \ 'jinja': { 'left': '<!--','right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
+    \ 'jinja': { 'left': '<!--', 'right': '-->', 'leftAlt': '{#', 'rightAlt': '#}' },
     \ 'jproperties': { 'left': '#' },
     \ 'jsp': { 'left': '<%--', 'right': '--%>' },
-    \ 'julia': { 'left': '#' },
+    \ 'julia': { 'left': '# ', 'leftAlt': '#=', 'rightAlt': '=#' },
+    \ 'kivy': { 'left': '#' },
     \ 'kix': { 'left': ';' },
     \ 'kscript': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'lace': { 'left': '--' },
     \ 'laravel': { 'left': '{{--', 'right': '--}}' },
     \ 'ldif': { 'left': '#' },
-    \ 'less': { 'left': '/*','right': '*/' },
-    \ 'lhaskell': { 'left': '>{-','right': '-}', 'leftAlt': '>-- ' },
+    \ 'less': { 'left': '/*', 'right': '*/' },
+    \ 'lhaskell': { 'left': '>{-', 'right': '-}', 'leftAlt': '>-- ' },
     \ 'lilo': { 'left': '#' },
     \ 'lilypond': { 'left': '%' },
     \ 'liquid': { 'left': '{% comment %}', 'right': '{% endcomment %}' },
@@ -273,8 +278,9 @@ let s:delimiterMap = {
     \ 'mel': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'meson': { 'left': '#' },
     \ 'mib': { 'left': '--' },
-    \ 'mips': { 'left': '#'},
-    \ 'mirah': {'left': '#'},
+    \ 'minizinc': { 'left': '% ', 'leftAlt': '/*', 'rightAlt': '*/' },
+    \ 'mips': { 'left': '#' },
+    \ 'mirah': {'left': '#' },
     \ 'mkd': { 'left': '<!---', 'right': '-->' },
     \ 'mma': { 'left': '(*', 'right': '*)' },
     \ 'model': { 'left': '$', 'right': '$' },
@@ -312,7 +318,7 @@ let s:delimiterMap = {
     \ 'ox': { 'left': '//' },
     \ 'paludis-use-conf': { 'left': '#' },
     \ 'pandoc': { 'left': '<!--', 'right': '-->' },
-    \ 'pascal': { 'left': '{','right': '}', 'leftAlt': '(*', 'rightAlt': '*)' },
+    \ 'pascal': { 'left': '{', 'right': '}', 'leftAlt': '(*', 'rightAlt': '*)' },
     \ 'patran': { 'left': '$', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'pcap': { 'left': '#' },
     \ 'pccts': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
@@ -333,6 +339,7 @@ let s:delimiterMap = {
     \ 'povini': { 'left': ';' },
     \ 'ppd': { 'left': '%' },
     \ 'ppwiz': { 'left': ';;' },
+    \ 'praat': { 'left': '#' },
     \ 'privoxy': { 'left': '#' },
     \ 'processing': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'prolog': { 'left': '%', 'leftAlt': '/*', 'rightAlt': '*/' },
@@ -351,13 +358,15 @@ let s:delimiterMap = {
     \ 'rebol': { 'left': ';' },
     \ 'registry': { 'left': ';' },
     \ 'remind': { 'left': '#' },
+    \ 'renpy': { 'left': '# ' },
     \ 'resolv': { 'left': '#' },
     \ 'rgb': { 'left': '!' },
     \ 'rib': { 'left': '#' },
     \ 'rmd': { 'left': '#' },
+    \ 'robot': { 'left': '#' },
     \ 'robots': { 'left': '#' },
     \ 'rspec': { 'left': '#' },
-    \ 'ruby': { 'left': '#', 'leftAlt': '=begin', 'rightAlt': '=end' },
+    \ 'ruby': { 'left': '#' },
     \ 'rust': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'sa': { 'left': '--' },
     \ 'samba': { 'left': ';', 'leftAlt': '#' },
@@ -368,7 +377,8 @@ let s:delimiterMap = {
     \ 'scilab': { 'left': '//' },
     \ 'scons': { 'left': '#' },
     \ 'scsh': { 'left': ';' },
-    \ 'scss': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/'},
+    \ 'scss': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
+    \ 'sdc': { 'left': '#' },
     \ 'sed': { 'left': '#' },
     \ 'sgmldecl': { 'left': '--', 'right': '--' },
     \ 'sgmllnx': { 'left': '<!--', 'right': '-->' },
@@ -405,12 +415,13 @@ let s:delimiterMap = {
     \ 'sqr': { 'left': '!' },
     \ 'squid': { 'left': '#' },
     \ 'ss': { 'left': ';', 'leftAlt': '#|', 'rightAlt': '|#' },
+    \ 'sshconfig': { 'left': '#' },
     \ 'sshdconfig': { 'left': '#' },
     \ 'st': { 'left': '"' },
     \ 'stan': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-    \ 'stp': { 'left': '/*','right': '*/', 'leftAlt': '//' },
+    \ 'stp': { 'left': '/*', 'right': '*/', 'leftAlt': '//' },
     \ 'supercollider': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-    \ 'swift': { 'left': '/*','right': '*/', 'leftAlt': '//' },
+    \ 'swift': { 'left': '/*', 'right': '*/', 'leftAlt': '//' },
     \ 'systemverilog': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'tads': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'tags': { 'left': ';' },
@@ -422,7 +433,7 @@ let s:delimiterMap = {
     \ 'tex': { 'left': '%' },
     \ 'texinfo': { 'left': "@c " },
     \ 'texmf': { 'left': '%' },
-    \ 'tf': { 'left': ';' },
+    \ 'tf': { 'left': '#' },
     \ 'tidy': { 'left': '#' },
     \ 'tli': { 'left': '#' },
     \ 'tmux': { 'left': '#' },
@@ -431,6 +442,7 @@ let s:delimiterMap = {
     \ 'tsalt': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'tsscl': { 'left': '#' },
     \ 'tssgm': { 'left': "comment = '", 'right': "'" },
+    \ 'ttl': { 'left': '#' },
     \ 'tup': { 'left': '#' },
     \ 'twig': { 'left': '{#', 'right': '#}' },
     \ 'txt2tags': { 'left': '%' },
@@ -442,7 +454,7 @@ let s:delimiterMap = {
     \ 'vasp': { 'left': '!' },
     \ 'vb': { 'left': "'" },
     \ 'velocity': { 'left': "##", 'right': "", 'leftAlt': '#*', 'rightAlt': '*#' },
-    \ 'vera': { 'left': '/*','right': '*/', 'leftAlt': '//' },
+    \ 'vera': { 'left': '/*', 'right': '*/', 'leftAlt': '//' },
     \ 'verilog': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'verilog_systemverilog': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'vgrindefs': { 'left': '#' },
@@ -1249,12 +1261,29 @@ function! NERDComment(mode, type) range
         endtry
 
     elseif a:type ==? 'Toggle'
-        let theLine = getline(firstLine)
-
-        if s:IsInSexyComment(firstLine) || s:IsCommentedFromStartOfLine(s:Left(), theLine) || s:IsCommentedFromStartOfLine(s:Left({'alt': 1}), theLine)
-            call s:UncommentLines(firstLine, lastLine)
+        if g:NERDToggleCheckAllLines ==# 0
+          let theLine = getline(firstLine)
+          if s:IsInSexyComment(firstLine) || s:IsCommentedFromStartOfLine(s:Left(), theLine) || s:IsCommentedFromStartOfLine(s:Left({'alt': 1}), theLine)
+              call s:UncommentLines(firstLine, lastLine)
+          else
+              call s:CommentLinesToggle(forceNested, firstLine, lastLine)
+          endif
         else
+          let l:commentAllLines = 0
+          for i in range(firstLine, lastLine)
+            let theLine = getline(i)
+            " if have one line no comment, then comment all lines
+            if !s:IsInSexyComment(firstLine) && !s:IsCommentedFromStartOfLine(s:Left(), theLine) && !s:IsCommentedFromStartOfLine(s:Left({'alt': 1}), theLine)
+              let l:commentAllLines = 1
+              break
+            else
+          endif
+          endfor
+          if l:commentAllLines ==# 1
             call s:CommentLinesToggle(forceNested, firstLine, lastLine)
+          else
+            call s:UncommentLines(firstLine, lastLine)
+          endif
         endif
 
     elseif a:type ==? 'Minimal'
