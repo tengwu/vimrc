@@ -16,6 +16,7 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 Plugin 'mattn/emmet-vim'
+Plugin 'chrisbra/vim-diff-enhanced'
 
 "在这之前安装插件
 call vundle#end()

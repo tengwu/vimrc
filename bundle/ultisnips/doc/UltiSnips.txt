@@ -29,6 +29,7 @@ UltiSnips                                      *snippet* *snippets* *UltiSnips*
       4.1.2 Basic syntax                        |UltiSnips-basic-syntax|
       4.1.3 Snippet Options                     |UltiSnips-snippet-options|
       4.1.4 Character Escaping                  |UltiSnips-character-escaping|
+      4.1.5 Snippets text-objects               |UltiSnips-snippet-text-objects|
    4.2 Plaintext Snippets                       |UltiSnips-plaintext-snippets|
    4.3 Visual Placeholder                       |UltiSnips-visual-placeholder|
    4.4 Interpolation                            |UltiSnips-interpolation|
@@ -218,8 +219,8 @@ g:UltiSnipsSnippetsDir
                             Also, this setting does not affect where snippets
                             are searched for, so it is possible to change this
                             to opening files that are then not found by
-                            UltiSnips. See |UltiSnips-snippet-search-path| for
-                            details.
+                            UltiSnips. See |UltiSnips-how-snippets-are-loaded|
+                            for details.
 
                                                         *g:UltiSnipsSnippetDirectories*
 g:UltiSnipsSnippetDirectories
@@ -533,7 +534,7 @@ this list.
 
 UltiSnips will search each 'runtimepath' directory for the subdirectory names
 defined in g:UltiSnipsSnippetDirectories in the order they are defined. For
-example, if you keep your snippets in `~/.vim/mycoolsnippets`and you want to
+example, if you keep your snippets in `~/.vim/mycoolsnippets` and you want to
 make use of the UltiSnips snippets that come with other plugins, add the
 following to your vimrc file. >
 
@@ -732,6 +733,14 @@ from the 'endsnippet' end line.
 In snippet definitions, the characters '`', '{', '$' and '\' have special
 meaning. If you want to insert one of these characters literally, escape them
 with a backslash, '\'.
+
+
+ 4.1.5 Snippets text-objects                   *UltiSnips-snippet-text-objects*
+
+Inside a snippets buffer, the following text objects are available:
+>
+   iS   inside snippet
+   aS   around snippet (including empty lines that follow)
 
 
 4.2 Plaintext Snippets                         *UltiSnips-plaintext-snippets*
