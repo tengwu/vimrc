@@ -20,7 +20,7 @@ Plugin 'whatot/gtags-cscope.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mhinz/vim-signify'
-Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
 
 "在这之前安装插件
 call vundle#end()
@@ -57,6 +57,8 @@ nmap <C-n> :cn<CR>
 nmap <C-m> :cp<CR>
 nmap <C-t> :Gtags -f<CR>
 
+nmap <leader>s <Esc>:Ack! 
+
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
 nnoremap <C-k> <Esc><C-w>k
@@ -87,6 +89,10 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 noremap <F4> :NERDTreeToggle<CR>
 let g:nerdtree_tabs_smart_startup_focus = 1     
 let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
+
+" ack搜索结果高亮
+let g:ackhighlight = 1
+hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 
 " snippets 补全，依赖py3，暂不使用
 " let g:UltiSnipsExpandTrigger="<c-e>"
