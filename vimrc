@@ -21,6 +21,10 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mhinz/vim-signify'
 Plugin 'mileszs/ack.vim'
+" Plugin 'ycm-core/YouCompleteMe'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
 
 "在这之前安装插件
 call vundle#end()
