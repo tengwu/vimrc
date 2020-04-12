@@ -14,9 +14,13 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Raimondi/delimitMate'
 Plugin 'honza/vim-snippets'
-Plugin 'SirVer/ultisnips'
 Plugin 'mattn/emmet-vim'
 Plugin 'chrisbra/vim-diff-enhanced'
+Plugin 'whatot/gtags-cscope.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'mhinz/vim-signify'
+Plugin 'rking/ag.vim'
 
 "在这之前安装插件
 call vundle#end()
@@ -39,13 +43,25 @@ syntax on
 set hlsearch " 搜索高亮
 set backspace=indent,eol,start " 解决退格键不能用的问题
 hi Search term=reverse ctermbg=7 guibg=LightGrey " 搜索高亮颜色
-set clipboard=unnamedplus " 设置剪贴板为系统剪贴板
 filetype indent on " 自适应不同语言的缩进
-nnoremap <F5>   <Esc>:w<CR>:!g++ -std=c++11 % -o /tmp/a.out && /tmp/a.out<CR>
-nnoremap <F7>   <Esc>:w<CR>:!g++ -std=c++11 %<CR>
-nnoremap <C-F5> <Esc>:w<CR>:!g++ -std=c++11 -g % -o /tmp/a.out && gdb /tmp/a.out<CR>
+" 以下几个按键映射目前不会用到，暂时屏蔽
+" nnoremap <F5>   <Esc>:w<CR>:!g++ -std=c++11 % -o /tmp/a.out && /tmp/a.out<CR>
+" nnoremap <F7>   <Esc>:w<CR>:!g++ -std=c++11 %<CR>
+" nnoremap <C-F5> <Esc>:w<CR>:!g++ -std=c++11 -g % -o /tmp/a.out && gdb /tmp/a.out<CR>
 " 设置键绑定 全选
-map <F4> :<ESC>ggVG"+y
+" map <F4> :<ESC>ggVG"+y
+
+" gtags按键绑定
+nmap <C-a> :Gtags<CR><CR>
+nmap <C-n> :cn<CR>
+nmap <C-m> :cp<CR>
+nmap <C-t> :Gtags -f<CR>
+
+" 窗口光标控制
+nnoremap <C-j> <Esc><C-w>j
+nnoremap <C-k> <Esc><C-w>k
+nnoremap <C-h> <Esc><C-w>h
+nnoremap <C-l> <Esc><C-w>l
 set expandtab " 将制表符扩展为空格
 set shiftwidth=4 " 设置格式化时的tab为4个空格
 set softtabstop=4 " 把连续数量的空格视为一个制表符
@@ -67,11 +83,14 @@ set t_Co=256
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
+" map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
+noremap <F4> :NERDTreeToggle<CR>
 let g:nerdtree_tabs_smart_startup_focus = 1     
 let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
 
-" snippets 补全
-let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" snippets 补全，依赖py3，暂不使用
+" let g:UltiSnipsExpandTrigger="<c-e>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+set mouse=a

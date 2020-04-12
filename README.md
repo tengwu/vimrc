@@ -23,3 +23,5 @@ git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
 > # 打开vim
 > # 普通模式下输入:PluginInstall
 ```
+### TODO
+使用vim-plug管理插件
