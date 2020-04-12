@@ -25,6 +25,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 "在这之前安装插件
 call vundle#end()
