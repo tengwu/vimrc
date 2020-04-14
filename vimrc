@@ -50,7 +50,7 @@ nmap <C-n> :cn<CR>
 nmap <C-m> :cp<CR>
 nmap <C-t> :Gtags -f<CR>
 
-nmap <leader>s <Esc>:Ack! 
+nmap <leader>s <Esc>:Ag! 
 
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
@@ -91,3 +91,5 @@ hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 " let g:UltiSnipsExpandTrigger="<c-e>"
 " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+set mouse=a
