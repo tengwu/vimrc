@@ -62,7 +62,7 @@ nmap <C-n> :cn<CR>
 nmap <C-m> :cp<CR>
 nmap <C-t> :Gtags -f<CR>
 
-nmap <leader>s <Esc>:Ack! 
+nmap <leader>s <Esc>:Ag! 
 
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
