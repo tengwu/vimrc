@@ -1,43 +1,30 @@
-"""Vundle"""
-set nocompatible 
-filetype off
+""" vim-plug """
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-"在之后安装插件
+Plug 'Lokaltog/vim-powerline'
+Plug 'preservim/nerdtree'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Raimondi/delimitMate'
+Plug 'honza/vim-snippets'
+Plug 'mattn/emmet-vim'
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'whatot/gtags-cscope.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'mhinz/vim-signify'
+Plug 'rking/ag.vim'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'nathanaelkane/vim-indent-guides'
 
-Plugin 'VundleVim/Vundle.vim' "管理自己
-
-Plugin 'https://github.com/Lokaltog/vim-powerline.git'
-Plugin 'The-NERD-tree'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Raimondi/delimitMate'
-Plugin 'honza/vim-snippets'
-Plugin 'mattn/emmet-vim'
-Plugin 'chrisbra/vim-diff-enhanced'
-Plugin 'whatot/gtags-cscope.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'mhinz/vim-signify'
-Plugin 'mileszs/ack.vim'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'nathanaelkane/vim-indent-guides'
-
-"在这之前安装插件
-call vundle#end()
-filetype plugin on
-" 常用命令
-" :PluginList 		-查看已经安装的插件
-" :PluginInstall 	-安装插件
-" :PluginUpdate 	-更新插件
-" :PluginSearch 	-搜索插件
-" :PluginClean 		-删除插件
-" h: vundle 		-获取帮助
-" vundle配置完毕，在下面写自己的配置
+" Initialize plugin system
+call plug#end()
 """"""""""""""""""""""
 let mapleader=";"
 colorscheme molokai
