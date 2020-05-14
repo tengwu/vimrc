@@ -21,7 +21,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mhinz/vim-signify'
 Plugin 'mileszs/ack.vim'
-" Plugin 'ycm-core/YouCompleteMe'
+Plugin 'ycm-core/YouCompleteMe'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
@@ -39,10 +39,12 @@ filetype plugin on
 " h: vundle 		-获取帮助
 " vundle配置完毕，在下面写自己的配置
 """"""""""""""""""""""
+let mapleader=";"
 colorscheme molokai
 set number
 set cursorcolumn
 set cursorline
+set colorcolumn=81
 set tabstop=4
 syntax on
 set hlsearch " 搜索高亮
@@ -91,7 +93,7 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
-noremap <F4> :NERDTreeToggle<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 let g:nerdtree_tabs_smart_startup_focus = 1     
 let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
 
@@ -104,4 +106,4 @@ hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-set mouse=a
+" set mouse=a
