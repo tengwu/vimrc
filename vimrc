@@ -5,6 +5,7 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes' " airline主题
 Plug 'preservim/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
@@ -65,13 +66,16 @@ set foldmethod=syntax " 基于语法进行代码折叠
 set nofoldenable " 启动vim时关闭折叠
 
 " vim-powerline
-set nocompatible   " 不向下兼容
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
-let g:Powerline_symbols = 'unicode'
-let g:Powerline_colorscheme = 'solarized256'
-let g:Powerline_stl_path_style = 'short'
-set t_Co=256
+" set nocompatible   " 不向下兼容
+" set laststatus=2   " Always show the statusline
+" set encoding=utf-8 " Necessary to show Unicode glyphs
+" let g:Powerline_symbols = 'unicode'
+" let g:Powerline_colorscheme = 'solarized256'
+" let g:Powerline_stl_path_style = 'short'
+" set t_Co=256
+
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
 
 "vim The-NERD-tree 目录树
 
@@ -94,3 +98,6 @@ hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " set mouse=a
+
+" airline主题
+let g:airline_theme = "molokai"
