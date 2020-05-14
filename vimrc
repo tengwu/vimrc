@@ -4,7 +4,7 @@
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-Plug 'Lokaltog/vim-powerline'
+Plug 'bling/vim-airline'
 Plug 'preservim/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
@@ -17,7 +17,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-signify'
 Plug 'rking/ag.vim'
-Plug 'ycm-core/YouCompleteMe'
+" Plug 'ycm-core/YouCompleteMe'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
 Plug 'garbas/vim-snipmate'
