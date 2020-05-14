@@ -21,8 +21,10 @@ Plug 'rking/ag.vim'
 " Plug 'ycm-core/YouCompleteMe'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+" Plug 'garbas/vim-snipmate' " 代码补全
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'vim-scripts/taglist.vim'
+Plug 'majutsushi/tagbar'
 
 " Initialize plugin system
 call plug#end()
@@ -53,6 +55,7 @@ nmap <C-m> :cp<CR>
 nmap <C-t> :Gtags -f<CR>
 
 nmap <leader>s <Esc>:Ag! 
+nmap <leader>t :TlistToggle<CR>
 
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
