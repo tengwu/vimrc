@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes' " airline主题
+" Plug 'powerline/powerline'
 Plug 'preservim/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
@@ -14,7 +15,7 @@ Plug 'honza/vim-snippets'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'whatot/gtags-cscope.vim'
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-signify'
 Plug 'rking/ag.vim'
@@ -25,6 +26,8 @@ Plug 'tomtom/tlib_vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/taglist.vim'
 Plug 'majutsushi/tagbar'
+Plug 'flazz/vim-colorschemes' " 管理主题
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' } " 查找文件 & 自动生成gtags
 
 " Initialize plugin system
 call plug#end()
@@ -35,7 +38,7 @@ set number
 set cursorcolumn
 set cursorline
 set colorcolumn=81
-set tabstop=4
+set tabstop=2
 syntax on
 set hlsearch " 搜索高亮
 set backspace=indent,eol,start " 解决退格键不能用的问题
@@ -55,7 +58,9 @@ nmap <C-m> :cp<CR>
 nmap <C-t> :Gtags -f<CR>
 
 nmap <leader>s <Esc>:Ag! 
-nmap <leader>t :TlistToggle<CR>
+" nmap <leader>t :TlistToggle<CR>
+nmap <leader>t :TagbarToggle<CR>
+imap kj <Esc>
 
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
@@ -69,7 +74,6 @@ set foldmethod=syntax " 基于语法进行代码折叠
 set nofoldenable " 启动vim时关闭折叠
 
 " vim-powerline
-" set nocompatible   " 不向下兼容
 " set laststatus=2   " Always show the statusline
 " set encoding=utf-8 " Necessary to show Unicode glyphs
 " let g:Powerline_symbols = 'unicode'
@@ -104,3 +108,5 @@ hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 
 " airline主题
 let g:airline_theme = "molokai"
+
+set guifont=Menlo\ Regular:h19
