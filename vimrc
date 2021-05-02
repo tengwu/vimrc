@@ -14,13 +14,13 @@ Plug 'Raimondi/delimitMate' " auto-completion for quotes, parens, brackets, etc.
 Plug 'SirVer/ultisnips'
 Plug 'keelii/vim-snippets'
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'whatot/gtags-cscope.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
+Plug 'brookhong/cscope.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -57,23 +57,14 @@ nnoremap <C-h> <Esc><C-w>h
 nnoremap <C-l> <Esc><C-w>l
 
 " tagbar
-nmap <leader>t :TagbarToggle<CR>
+nmap T :TagbarToggle<CR>
 imap kj <Esc>
-
-" gtags
-nmap <leader>ga :Gtags<CR><CR>
-nmap <leader>gn :cn<CR>
-nmap <leader>gp :cp<CR>
-nmap <leader>gt :Gtags -f<CR>
 
 set expandtab " 将制表符扩展为空格
 set shiftwidth=2 " 设置格式化时的tab为4个空格
 set softtabstop=2 " 把连续数量的空格视为一个制表符
 set foldmethod=syntax " 基于语法进行代码折叠
 set nofoldenable " 启动vim时关闭折叠
-
-" 自动生成gtags索引
-let g:Lf_GtagsAutoGenerate = 1
 
 "vim The-NERD-tree 目录树
 
@@ -84,7 +75,6 @@ let g:Lf_GtagsAutoGenerate = 1
 "let g:NERDSpaceDelims = 1
 "let g:NERDDefaultAlign = 'left'
 "
-"" map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
 noremap <leader>n :NERDTreeToggle<CR>
 "let g:nerdtree_tabs_smart_startup_focus = 1
 "let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
@@ -106,3 +96,27 @@ set clipboard+=unnamedplus
 set wildmenu
 
 set scrolloff=5
+
+
+nnoremap <C-S> :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap L :call ToggleLocationList()<CR>
+
+" s: Find this C symbol
+nnoremap  <leader>gs :call CscopeFind('s', expand('<cword>'))<CR>
+" g: Find this definition
+nnoremap  <leader>gd :call CscopeFind('g', expand('<cword>'))<CR>
+" d: Find functions called by this function
+nnoremap  <leader>gf :call CscopeFind('d', expand('<cword>'))<CR>
+" c: Find functions calling this function
+nnoremap  <leader>ga :call CscopeFind('c', expand('<cword>'))<CR>
+" t: Find this text string
+nnoremap  <leader>gt :call CscopeFind('t', expand('<cword>'))<CR>
+" e: Find this egrep pattern
+nnoremap  <leader>ge :call CscopeFind('e', expand('<cword>'))<CR>
+" f: Find this file
+nnoremap  <leader>gf :call CscopeFind('f', expand('<cword>'))<CR>
+" i: Find files #including this file
+nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
+
+nnoremap  <C-[> :lprevious<CR>
+nnoremap  <C-]> :lnext<CR>
