@@ -35,6 +35,7 @@ set colorcolumn=81
 set tabstop=2
 syntax on
 set hlsearch " 搜索高亮
+set incsearch " 增量搜索
 set backspace=indent,eol,start " 解决退格键不能用的问题
 hi Search term=reverse ctermbg=7 guibg=LightGrey " 搜索高亮颜色
 filetype indent on " 自适应不同语言的缩进
