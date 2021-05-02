@@ -97,6 +97,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " airline主题
 let g:airline_theme = "molokai"
 
+set guifont=Menlo\ Regular:h19
+
 " use system clipboard
 set clipboard+=unnamedplus
 
