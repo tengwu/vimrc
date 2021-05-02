@@ -4,6 +4,7 @@
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+Plug 'francoiscabrol/ranger.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes' " airline主题
 " Plug 'powerline/powerline'
@@ -28,6 +29,7 @@ Plug 'vim-scripts/taglist.vim'
 Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' } " 查找文件 & 自动生成gtags
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " go语言语法检查 & 高亮
 
 " Initialize plugin system
 call plug#end()
@@ -68,10 +70,13 @@ nnoremap <C-k> <Esc><C-w>k
 nnoremap <C-h> <Esc><C-w>h
 nnoremap <C-l> <Esc><C-w>l
 set expandtab " 将制表符扩展为空格
-set shiftwidth=4 " 设置格式化时的tab为4个空格
-set softtabstop=4 " 把连续数量的空格视为一个制表符
+set shiftwidth=2 " 设置格式化时的tab为4个空格
+set softtabstop=2 " 把连续数量的空格视为一个制表符
 set foldmethod=syntax " 基于语法进行代码折叠
 set nofoldenable " 启动vim时关闭折叠
+
+" 自动生成gtags索引
+let g:Lf_GtagsAutoGenerate = 1
 
 " vim-powerline
 " set laststatus=2   " Always show the statusline
@@ -110,3 +115,6 @@ hi Search term=standout ctermfg=0 ctermbg=3 " 设置搜索结果高亮颜色
 let g:airline_theme = "molokai"
 
 set guifont=Menlo\ Regular:h19
+
+" use system clipboard
+set clipboard+=unnamedplus
