@@ -19,7 +19,6 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' } " 查找文件 & 自动生成gtags
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " go语言语法检查 & 高亮
 
 " Initialize plugin system
 call plug#end()
