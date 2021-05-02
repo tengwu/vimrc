@@ -11,14 +11,15 @@ Plug 'preservim/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Raimondi/delimitMate' " auto-completion for quotes, parens, brackets, etc.
-Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'keelii/vim-snippets'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'whatot/gtags-cscope.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' } " 查找文件 & 自动生成gtags
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Initialize plugin system
 call plug#end()
@@ -42,6 +43,10 @@ filetype indent on " 自适应不同语言的缩进
 " nnoremap <C-F5> <Esc>:w<CR>:!g++ -std=c++11 -g % -o /tmp/a.out && gdb /tmp/a.out<CR>
 " 设置键绑定 全选
 map <leader>a :<ESC>ggVGy<C-o>zz
+
+" vim quit
+map S <Esc>:w<CR>
+map Q <Esc>:q<CR>
 
 " 窗口光标控制
 nnoremap <C-j> <Esc><C-w>j
@@ -70,23 +75,22 @@ let g:Lf_GtagsAutoGenerate = 1
 
 "vim The-NERD-tree 目录树
 
-" 如果当前没文件时,自动打开
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-
-" map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
+"" 如果当前没文件时,自动打开
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"
+"let g:NERDSpaceDelims = 1
+"let g:NERDDefaultAlign = 'left'
+"
+"" map <C-n> :NERDTreeToggle<CR>  " 映射`ctrl+c`快捷键
 noremap <leader>n :NERDTreeToggle<CR>
-let g:nerdtree_tabs_smart_startup_focus = 1     
-let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
+"let g:nerdtree_tabs_smart_startup_focus = 1
+"let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
 
 " snippets 补全，依赖py3，暂不使用
-let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " set mouse=a
 
 " airline主题
