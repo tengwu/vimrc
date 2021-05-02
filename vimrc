@@ -89,16 +89,13 @@ noremap <leader>n :NERDTreeToggle<CR>
 "let g:nerdtree_tabs_smart_startup_focus = 1
 "let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
 
-" snippets 补全，依赖py3，暂不使用
+" snippets
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" set mouse=a
 
 " airline主题
 let g:airline_theme = "molokai"
-
-set guifont=Menlo\ Regular:h19
 
 " use system clipboard
 set clipboard+=unnamedplus
