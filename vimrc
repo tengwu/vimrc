@@ -23,7 +23,7 @@ Plug 'rking/ag.vim'
 " Plug 'ycm-core/YouCompleteMe'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-" Plug 'garbas/vim-snipmate' " 代码补全
+" Plug 'garbas/vim-snipmate' "代码片段
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-scripts/taglist.vim'
 Plug 'majutsushi/tagbar'
@@ -118,3 +118,6 @@ set guifont=Menlo\ Regular:h19
 
 " use system clipboard
 set clipboard+=unnamedplus
+
+" for cmd completation
+set wildmenu
