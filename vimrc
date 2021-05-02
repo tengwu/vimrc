@@ -20,6 +20,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'terryma/vim-multiple-cursors'
 
 " Initialize plugin system
 call plug#end()
@@ -59,10 +60,10 @@ nmap <leader>t :TagbarToggle<CR>
 imap kj <Esc>
 
 " gtags
-nmap <C-a> :Gtags<CR><CR>
-nmap <C-n> :cn<CR>
-nmap <C-m> :cp<CR>
-nmap <C-t> :Gtags -f<CR>
+nmap <leader>ga :Gtags<CR><CR>
+nmap <leader>gn :cn<CR>
+nmap <leader>gp :cp<CR>
+nmap <leader>gt :Gtags -f<CR>
 
 set expandtab " 将制表符扩展为空格
 set shiftwidth=2 " 设置格式化时的tab为4个空格
