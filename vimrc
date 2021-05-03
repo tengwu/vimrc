@@ -19,7 +19,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
-Plug 'brookhong/cscope.vim'
+Plug 'tengwu/cscope.vim'
 
 " Initialize plugin system
 call plug#end()
