@@ -16,7 +16,6 @@ Plug 'keelii/vim-snippets'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'majutsushi/tagbar'
 Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
@@ -56,8 +55,6 @@ nnoremap <C-k> <Esc><C-w>k
 nnoremap <C-h> <Esc><C-w>h
 nnoremap <C-l> <Esc><C-w>l
 
-" tagbar
-nmap T :TagbarToggle<CR>
 imap kj <Esc>
 
 set expandtab " 将制表符扩展为空格
@@ -90,7 +87,7 @@ let g:airline_theme = "molokai"
 set guifont=Menlo\ Regular:h19
 
 " use system clipboard
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus
 
 " for cmd completation
 set wildmenu
@@ -98,7 +95,6 @@ set wildmenu
 set scrolloff=5
 
 
-nnoremap <C-S> :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap L :call ToggleLocationList()<CR>
 
 " s: Find this C symbol
@@ -118,5 +114,5 @@ nnoremap  <leader>gf :call CscopeFind('f', expand('<cword>'))<CR>
 " i: Find files #including this file
 nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
 
-nnoremap  <C-[> :lprevious<CR>
-nnoremap  <C-]> :lnext<CR>
+nnoremap  \ :lprevious<CR>
+nnoremap  ` :lnext<CR>
