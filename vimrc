@@ -20,6 +20,8 @@ Plug 'flazz/vim-colorschemes' " 管理主题
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tengwu/cscope.vim'
+Plug 'voldikss/vim-translator' " 翻译
+Plug 'voldikss/vim-floaterm' " vim-translator 浮动窗口依赖
 
 " Initialize plugin system
 call plug#end()
@@ -43,7 +45,7 @@ filetype indent on " 自适应不同语言的缩进
 " nnoremap <F7>   <Esc>:w<CR>:!g++ -std=c++11 %<CR>
 " nnoremap <C-F5> <Esc>:w<CR>:!g++ -std=c++11 -g % -o /tmp/a.out && gdb /tmp/a.out<CR>
 " 设置键绑定 全选
-map <leader>a :<ESC>ggVGy<C-o>zz
+map <leader>a :<ESC>ggVGy
 
 " vim quit
 map S <Esc>:w<CR>
@@ -87,7 +89,7 @@ let g:airline_theme = "molokai"
 set guifont=Menlo\ Regular:h19
 
 " use system clipboard
-" set clipboard+=unnamedplus
+set clipboard+=unnamedplus
 
 " for cmd completation
 set wildmenu
@@ -116,3 +118,8 @@ nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
 
 nnoremap  \ :lprevious<CR>
 nnoremap  ` :lnext<CR>
+
+" vim-translator
+" let g:translator_history_enable = v:true
+" let g:translator_proxy_url = 'socks5://127.0.0.1:7890'
+" let g:translator_window_type = 'popup'
