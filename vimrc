@@ -5,34 +5,29 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'francoiscabrol/ranger.vim'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes' " airline主题
+Plug 'rbgrouleff/bclose.vim'
 Plug 'preservim/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'scrooloose/nerdcommenter'
 Plug 'Raimondi/delimitMate' " auto-completion for quotes, parens, brackets, etc.
-Plug 'SirVer/ultisnips'
-Plug 'keelii/vim-snippets'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'flazz/vim-colorschemes' " 管理主题
+Plug 'flazz/vim-colorschemes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tengwu/cscope.vim'
-Plug 'voldikss/vim-translator' " 翻译
-Plug 'voldikss/vim-floaterm' " vim-translator 浮动窗口依赖
 
 " Initialize plugin system
 call plug#end()
 """"""""""""""""""""""
 
 let mapleader=";"
-colorscheme molokai
+" colorscheme molokai
 set number
-set cursorcolumn
+set foldmethod=manual
+" set cursorcolumn
 set cursorline
-set colorcolumn=81
+" set colorcolumn=81
 set tabstop=2
 syntax on
 set hlsearch " 搜索高亮
@@ -118,8 +113,3 @@ nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
 
 nnoremap  \ :lprevious<CR>
 nnoremap  ` :lnext<CR>
-
-" vim-translator
-" let g:translator_history_enable = v:true
-" let g:translator_proxy_url = 'socks5://127.0.0.1:7890'
-" let g:translator_window_type = 'popup'
