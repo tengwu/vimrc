@@ -15,14 +15,17 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'flazz/vim-colorschemes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tengwu/cscope.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'
+Plug 'tengwu/vim-utilities'
 
 " Initialize plugin system
 call plug#end()
 """"""""""""""""""""""
 
 let mapleader=";"
-" colorscheme molokai
+colorscheme molokai
 set number
 set foldmethod=manual
 " set cursorcolumn
@@ -68,19 +71,19 @@ set nofoldenable " 启动vim时关闭折叠
 "
 "let g:NERDSpaceDelims = 1
 "let g:NERDDefaultAlign = 'left'
-"
+
 noremap <leader>n :NERDTreeToggle<CR>
 "let g:nerdtree_tabs_smart_startup_focus = 1
 "let NERDTreeAutoCenter=1       " nerdtree 光标所在的位置默认在窗口中间
+
+noremap <leader>u :call ToggleQuickfixList()<CR>
 
 " snippets
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" airline主题
-let g:airline_theme = "molokai"
-
+" for MacVim
 set guifont=Menlo\ Regular:h19
 
 " use system clipboard
@@ -92,24 +95,60 @@ set wildmenu
 set scrolloff=5
 
 
-nnoremap L :call ToggleLocationList()<CR>
+nnoremap  \ :cn<CR>
+nnoremap  ` :cp<CR>
 
-" s: Find this C symbol
-nnoremap  <leader>gs :call CscopeFind('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>gd :call CscopeFind('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>gf :call CscopeFind('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>ga :call CscopeFind('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>gt :call CscopeFind('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>ge :call CscopeFind('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>gf :call CscopeFind('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>gi :call CscopeFind('i', expand('<cword>'))<CR>
+" for Gtags or ctags
+" gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 
-nnoremap  \ :lprevious<CR>
-nnoremap  ` :lnext<CR>
+" 所生成的数据文件的名称
+let g:gutentags_ctags_tagfile = '.tags'
+
+" 同时开启 ctags 和 gtags 支持：
+let g:gutentags_modules = []
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
+
+" 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" 配置 ctags 的参数，老的 Exuberant-ctags 不能有 --extra=+q，注意
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+" 如果使用 universal ctags 需要增加下面一行，老的 Exuberant-ctags 不能加下一行
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+
+" 禁用 gutentags 自动加载 gtags 数据库的行为
+let g:gutentags_auto_add_gtags_cscope = 0
+
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
+
+let g:gutentags_plus_nomap = 1
+" Find symbol(reference)
+noremap <silent> <leader>gs :GscopeFind s <C-R><C-W><cr>
+" Find symbol definition under cursor
+noremap <silent> <leader>gg :GscopeFind g <C-R><C-W><cr>
+" Functions calling this function
+noremap <silent> <leader>gc :GscopeFind c <C-R><C-W><cr>
+" Find text string under cursor
+noremap <silent> <leader>gt :GscopeFind t <C-R><C-W><cr>
+" Find egrep pattern under cursor
+noremap <silent> <leader>ge :GscopeFind e <C-R><C-W><cr>
+" Find file name under cursor
+noremap <silent> <leader>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
+" Find files #including the file name under cursor
+noremap <silent> <leader>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
+" Functions called by this function
+noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
+" Find places where current symbol is assigned
+noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
+" Find current word in ctags database
+noremap <silent> <leader>gz :GscopeFind z <C-R><C-W><cr>
