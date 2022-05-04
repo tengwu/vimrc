@@ -13,19 +13,27 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'flazz/vim-colorschemes'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
 Plug 'tengwu/vim-utilities'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'prabirshrestha/asyncomplete.vim' " auto-complete
+Plug 'prabirshrestha/asyncomplete-lsp.vim' " python auto-complelte
 
 " Initialize plugin system
 call plug#end()
 """"""""""""""""""""""
 
 let mapleader=";"
-colorscheme molokai
+colorscheme github
+
+"" if you use airline / lightline
+"let g:airline_theme = "github"
+
 set number
 set foldmethod=manual
 " set cursorcolumn
@@ -107,9 +115,9 @@ let g:gutentags_ctags_tagfile = '.tags'
 
 " 同时开启 ctags 和 gtags 支持：
 let g:gutentags_modules = []
-if executable('ctags')
-	let g:gutentags_modules += ['ctags']
-endif
+" if executable('ctags')
+" 	let g:gutentags_modules += ['ctags']
+" endif
 if executable('gtags-cscope') && executable('gtags')
 	let g:gutentags_modules += ['gtags_cscope']
 endif
@@ -152,3 +160,49 @@ noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
 noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
 " Find current word in ctags database
 noremap <silent> <leader>gz :GscopeFind z <C-R><C-W><cr>
+
+" lsp configuration
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+" code fold
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
