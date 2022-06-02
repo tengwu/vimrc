@@ -28,13 +28,12 @@ call plug#end()
 """"""""""""""""""""""
 
 let mapleader=";"
-colorscheme molokai
+" colorscheme molokai
 
 "" if you use airline / lightline
 "let g:airline_theme = "github"
 
 set number
-set foldmethod=manual
 " set cursorcolumn
 set cursorline
 " set colorcolumn=81
@@ -67,8 +66,8 @@ imap kj <Esc>
 set expandtab " 将制表符扩展为空格
 set shiftwidth=2 " 设置格式化时的tab为4个空格
 set softtabstop=2 " 把连续数量的空格视为一个制表符
-set foldmethod=syntax " 基于语法进行代码折叠
 set nofoldenable " 启动vim时关闭折叠
+set foldmethod=syntax " 基于语法进行代码折叠
 
 "vim The-NERD-tree 目录树
 
@@ -91,10 +90,10 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " for MacVim
-" set guifont=Menlo\ Regular:h19
+set guifont=Menlo\ Regular:h17
 
 " use system clipboard
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 
 " for cmd completation
 set wildmenu
@@ -166,7 +165,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
@@ -208,4 +207,6 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+noremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+set guioptions-=L
