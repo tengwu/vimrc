@@ -56,10 +56,10 @@ map S <Esc>:w<CR>
 map Q <Esc>:q<CR>
 
 " 窗口光标控制
-nnoremap <C-j> <Esc><C-w>j
-nnoremap <C-k> <Esc><C-w>k
-nnoremap <C-h> <Esc><C-w>h
-nnoremap <C-l> <Esc><C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 imap kj <Esc>
 
