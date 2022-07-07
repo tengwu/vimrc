@@ -35,7 +35,7 @@ let mapleader=";"
 
 set number
 " set cursorcolumn
-set cursorline
+" set cursorline
 " set colorcolumn=81
 set tabstop=2
 syntax on
@@ -210,3 +210,4 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 noremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 set guioptions-=L
+set background=light
